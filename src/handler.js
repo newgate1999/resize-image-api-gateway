@@ -11,7 +11,7 @@ const S3 = new _S3({
   signatureVersion: 'v4',
 });
 
-const IMAGE_SIZES = [320, 640, 800, 1024, 1280, 1360, 1920, 2048, 2056, 2560, 3440, 3840, 'AUTO'];
+const IMAGE_SIZES = [128, 168, 264, 300, 1280, 1360, 1920, 2048, 2056, 2560, 3440, 3840, 'AUTO'];
 
 /**
  * Export `imageprocess` module.
@@ -45,7 +45,7 @@ export function imageprocess(event, context, callback) {
       })
         .promise()
         .then((data) =>
-          sharp(data.Body).jpeg({ quality: 95, progressive: true }).toBuffer()
+          sharp(data.Body).png({ quality: 95, progressive: true }).toBuffer()
         )
         .then((buffer) => {
           // generate a binary response with resized image
@@ -67,7 +67,6 @@ export function imageprocess(event, context, callback) {
           })
         );
     } else {
-
       if (!size.width || !IMAGE_SIZES.includes(size.width)) {
         return callback(null, {
           statusCode: 403,
@@ -83,7 +82,7 @@ export function imageprocess(event, context, callback) {
         .then((data) =>
           sharp(data.Body)
             .resize({ width: size.width })
-            .jpeg({ quality: 95, progressive: true })
+            .png({ quality: 95, progressive: true })
             .toBuffer()
         )
         .then((buffer) => {

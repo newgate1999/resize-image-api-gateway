@@ -43,7 +43,7 @@ package:
 provider:
   name: aws
   runtime: nodejs12.x
-  region: us-west-2
+  region: ap-southeast-1
   stage: ${opt:stage,'dev'}
   timeout: 5 # optional, in seconds, default is 6
   environment:
